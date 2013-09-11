@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html><head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<style type="text/css">
+img,svg{
+	float:left;
+}
+img#img{
+	display:none;
+}
+svg{
+	width:350px;
+	height:350px;
+}
+g>path.even{
+	fill:yellow;
+}
+g>path.odd{
+	fill:blue;
+}
+	</style>
+	<script type="text/javascript" src="potrace/potrace-packed.js"></script>
+	<script type="text/javascript" src="jscolor/jscolor.js"></script>
+	<script type="text/javascript">
+	setTimeout(function(){
+		var start = new Date();
+		main();
+		var end = new Date();
+		var div = document.createElement("div");
+		div.innerHTML = (end.getTime() - start.getTime()) + "ms";
+		div.style.position = "absolute";
+		document.getElementsByTagName("body")[0].appendChild(div);
+	}, 0);
+
+	function main(){
+		//img
+		var img = document.getElementById("img");
+		var width = img.width;
+		var height = img.height;
+
+		//svg
+		var svg = document.getElementById("svg");
+		svg.setAttribute("width", width);
+		svg.setAttribute("height", height);
+		svg.setAttribute("viewBox", [0,0,width,height].join(" "));
+
+		//Potrace
+		Potrace.setParam({
+			threshold: 0.5,
+			turdSize:3,
+			turnPolicy:1,
+			alphamax:0.9,
+			precision:2
+		});
+
+		var gElem = Potrace.trace(img).toPathElements();
+		svg.appendChild(gElem);
+	}
+	var bee = function (thr){
+		//img
+		var img = document.getElementById("img");
+		var width = img.width;
+		var height = img.height;
+
+		//svg
+		var svg = document.getElementById("svg");
+		svg.setAttribute("width", width);
+		svg.setAttribute("height", height);
+		svg.setAttribute("viewBox", [0,0,width,height].join(" "));
+
+		//Potrace
+		Potrace.setParam({
+			threshold: thr/10,
+			turdSize:3,
+			turnPolicy:1,
+			alphamax:0.9,
+			precision:2
+		});
+
+		var gElem = Potrace.trace(img).toPathElements();
+		svg.appendChild(gElem);
+
+};
+	</script>
+	</head>
+	<body>
+	<select name="cars" style="background-color: yellow" onchange="this.style.backgroundColor = this.options[this.selectedIndex].style.backgroundColor;">
+		<option style="background-color:yellow;" value="volvo">Volvo</option>
+		<option style="background-color:red;" value="saab">Saab</option>
+		<option value="fiat">Fiat</option>
+		<option value="audi">Audi</option>
+	</select>
+	<input class="color" onchange="document.getElementsByTagName('BODY')[0].style.backgroundColor = '#'+this.color"></br>
+	<select name="cars" style="background-color: yellow" onchange="this.style.backgroundColor = this.options[this.selectedIndex].style.backgroundColor;">
+		<option style="background-color:yellow;" value="volvo">Volvo</option>
+		<option style="background-color:red;" value="saab">Saab</option>
+		<option value="fiat">Fiat</option>
+		<option value="audi">Audi</option>
+	</select>
+	<input class="color" onchange="document.getElementsByTagName('BODY')[0].style.backgroundColor = '#'+this.color"></br>
+	<input type="range" onchange="bee(this.value)"id="r-threshold" min="1" max="10"><label id="rangeText">threshold</label></br>
+	<input type="range" id="r-turdSize" min="1" max="10"><label id="rangeText">turdSize</label></br>
+	<input type="range" id="r-turnPolicy" min="1" max="10"><label id="rangeText">turnPolicy</label></br>
+	<input type="range" id="r-alphamax" min="1" max="10"><label id="rangeText">alphamax</label></br>
+	<input type="range" id="r-precision" min="1" max="10"><label id="rangeText">precision</label></br>
+	<img src="http://potrace.sourceforge.net/img/head-orig3.png" height="350" width="350">
+	<img id="img" src="http://potrace.sourceforge.net/img/head-orig3.png" height="500" width="500">
+	<svg viewBox="0 0 500 500" height="500" width="500" id="svg"></svg>
+<div style="position: absolute;"></div></body></html>
