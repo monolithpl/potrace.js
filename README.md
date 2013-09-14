@@ -5,4 +5,4 @@ Transforming bitmaps into vector graphics: a port of Peter Selinger's potrace in
 
 convert ![original bitmap image](http://potrace.sourceforge.net/img/head-orig3.png) to ![potrace vector image](http://potrace.sourceforge.net/img/head-smooth3.png) 
 
-see the demo: http://monolithpl.github.io/potrace.js/demo.html
+see the demo: http://monolithpl.github.io/potracejs/demo.html
